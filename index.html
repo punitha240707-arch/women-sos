@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Women Safety SOS</title>
+
+<style>
+
+body{
+font-family:Arial;
+text-align:center;
+background:#f2f2f2;
+margin-top:60px;
+}
+
+h1{
+color:red;
+}
+
+button{
+padding:15px 30px;
+font-size:18px;
+margin:10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+.sos{background:red;color:white;}
+.location{background:green;color:white;}
+.alarm{background:orange;color:white;}
+.fake{background:blue;color:white;}
+.record{background:black;color:white;}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Women Safety SOS</h1>
+
+<button class="sos" onclick="sendSOS()">SOS ALERT</button>
+
+<br>
+
+<button class="location" onclick="getLocation()">Live GPS</button>
+
+<br>
+
+<button class="alarm" onclick="playAlarm()">Alarm</button>
+
+<br>
+
+<button class="fake" onclick="fakeCall()">Fake Call</button>
+
+<br>
+
+<button class="record" onclick="recordVideo()">Auto Video</button>
+
+<br>
+
+<button class="record" onclick="recordAudio()">Auto Audio 10 sec</button>
+
+<audio id="alarmSound" src="https://www.soundjay.com/button/beep-07.wav"></audio>
+
+<script>
+
+function sendSOS(){
+alert("SOS Alert Sent!");
+getLocation();
+}
+
+function getLocation(){
+
+navigator.geolocation.getCurrentPosition(function(position){
+
+let lat=position.coords.latitude;
+let lon=position.coords.longitude;
+
+let link="https://maps.google.com/?q="+lat+","+lon;
+
+alert("Your Location:\n"+link);
+
+});
+}
+
+function playAlarm(){
+document.getElementById("alarmSound").play();
+}
+
+function fakeCall(){
+alert("Incoming Call from Mom 📞");
+}
+
+function recordVideo(){
+
+navigator.mediaDevices.getUserMedia({video:true})
+.then(function(stream){
+alert("Video recording started");
+});
+
+}
+
+function recordAudio(){
+
+navigator.mediaDevices.getUserMedia({audio:true})
+.then(function(stream){
+
+alert("Audio recording for 10 seconds");
+
+setTimeout(function(){
+alert("Audio Sent to Emergency Contact");
+},10000);
+
+});
+
+}
+
+let shake=false;
+
+window.addEventListener("devicemotion",function(e){
+
+if(e.acceleration.x>15){
+
+if(!shake){
+
+alert("Phone Shake Detected! SOS Triggered");
+
+sendSOS();
+
+shake=true;
+
+}
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>
